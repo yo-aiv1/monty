@@ -66,3 +66,43 @@ void _pall(stack_t **stack, unsigned int line_number __attribute__((unused)))
 		current = current->next;
 	}
 }
+
+/**
+ * _pin - print a Top node.
+ * @stack: doubly linked list
+ * @line_number: line's num in morty script
+ */
+
+void _pint(stack_t **stack, unsigned int line_number)
+{
+	if (!*stack)
+	{
+		fprintf(stderr, " L%d: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", (*stack)->n);
+}
+
+/**
+ * _pop - pop The top of Node.
+ * @stack: doubly linked list
+ * @line_number: line's num in morty script
+ */
+
+void _pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *poped;
+
+	if (!*stack)
+	{
+		fprintf(stderr, " L%d: can't pop an stack empty\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	poped = *stack;
+	(*stack) = (*stack)->next;
+	global.head = (*stack);
+	if (*stack)
+		(*stack)->prev = NULL;
+	free(poped);
+	poped = NULL;
+}
