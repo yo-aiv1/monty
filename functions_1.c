@@ -68,7 +68,7 @@ void _pall(stack_t **stack, unsigned int line_number __attribute__((unused)))
 }
 
 /**
- * _pin - print a Top node.
+ * _pint - print a Top node.
  * @stack: doubly linked list
  * @line_number: line's num in morty script
  */
