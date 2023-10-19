@@ -11,7 +11,8 @@ void function_hundler(stack_t **stack, unsigned int line_number)
 	unsigned int i = 0;
 	instruction_t functions[] = {
 		{"push", _push}, {"pall", _pall}, {"pint", _pint},
-		{"pop", _pop}, {"swap", _swap}, {"add", _add}, {NULL, NULL}
+		{"pop", _pop}, {"swap", _swap}, {"add", _add}, {"nop", _nop},
+		{NULL, NULL}
 	};
 
 	while (functions[i].opcode != NULL)
