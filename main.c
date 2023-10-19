@@ -37,6 +37,7 @@ int main(int argc, char **argv)
 		global.op_name = strtok(line, "\n\t\r\v\f ");
 		global.value = strtok(NULL, "\n\t\r\v\f ");
 		global.line = line;
+		global.type = "stack";
 		if (global.op_name != NULL)
 		{
 			function_hundler(&head, line_number);
@@ -44,8 +45,6 @@ int main(int argc, char **argv)
 		line_number++;
 	}
 
-	free(line);
-	fclose(fp);
 	free_stack();
 	exit(EXIT_SUCCESS);
 }

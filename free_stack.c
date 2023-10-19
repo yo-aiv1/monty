@@ -7,6 +7,8 @@
 
 void free_stack(void)
 {
+	fclose(global.fd);
+	free(global.line);
 	if (global.head != NULL)
 	{
 		while (global.head->next != NULL)

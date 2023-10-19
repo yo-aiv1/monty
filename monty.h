@@ -45,6 +45,7 @@ typedef struct instruction_s
  * @head: node's head
  * @fd: file Descriptor
  * @line: line command to execute
+ * @type: stack or queue
  */
 
 typedef struct global_s
@@ -54,6 +55,7 @@ typedef struct global_s
 	stack_t *head;
 	FILE *fd;
 	char *line;
+	char *type;
 } global_t;
 
 extern global_t global;
@@ -73,4 +75,9 @@ void _div(stack_t **stack, unsigned int line_number);
 void _mul(stack_t **stack, unsigned int line_number);
 void _mod(stack_t **stack, unsigned int line_number);
 void _pchar(stack_t **stack, unsigned int line_number);
+void _pstr(stack_t **stack, unsigned int line_number);
+void _rotl(stack_t **stack, unsigned int line_number);
+void _rotr(stack_t **stack, unsigned int line_number);
+void _stack(stack_t **stack, unsigned int line_number);
+void _queue(stack_t **stack, unsigned int line_number);
 #endif

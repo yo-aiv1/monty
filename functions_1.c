@@ -1,40 +1,13 @@
 #include "monty.h"
-
+#include <string.h>
 /**
- * _push - push a node on top
+ * _stac - push a node on top of stack
  * @stack: doubly linked list
- * @line_number: line's num in morty script
  */
-
-void _push(stack_t **stack, unsigned int line_number)
+void _stac(stack_t **stack)
 {
-	stack_t *new;
-	unsigned int size;
-	int number;
+	stack_t *new = NULL;
 
-	if (global.value == NULL)
-	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		fclose(global.fd);
-		free(global.line);
-		free_stack();
-		exit(EXIT_FAILURE);
-	}
-	size = atoi(global.value) <= 0 ? 1 : 0;
-	number = abs(atoi(global.value));
-	while (number > 0)
-	{
-		number /= 10;
-		size++;
-	}
-	if (size != strlen(global.value))
-	{
-		printf("L%u: usage: push integer\n", line_number);
-		fclose(global.fd);
-		free(global.line);
-		free_stack();
-		exit(EXIT_FAILURE);
-	}
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
@@ -50,96 +23,85 @@ void _push(stack_t **stack, unsigned int line_number)
 	global.head = new;
 }
 
-
 /**
- * _pall - print every node in stack
- *
+ * _queu - push a node on top queue
  * @stack: doubly linked list
- * @line_number: line's num in morty script
  */
-
-void _pall(stack_t **stack, unsigned int line_number __attribute__((unused)))
+void _queu(stack_t **stack)
 {
-	stack_t *current = *stack;
+	stack_t *new = NULL, *tmp = NULL;
 
-	(void)line_number;
-	while (current != NULL)
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
 	{
-		printf("%d\n", current->n);
-		current = current->next;
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
+	tmp = *stack;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	new->next = NULL;
+	new->prev = tmp;
 }
-
 /**
- * _pint - print a Top node.
+ * _push - push a node on top
  * @stack: doubly linked list
  * @line_number: line's num in morty script
  */
 
-void _pint(stack_t **stack, unsigned int line_number)
+void _push(stack_t **stack, unsigned int line_number)
 {
-	if (!*stack)
+	unsigned int size = 0;
+	int number = 0;
+
+	if (global.value == NULL)
 	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-		fclose(global.fd);
-		free(global.line);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free_stack();
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*stack)->n);
-}
-
-/**
- * _pop - pop The top of Node.
- * @stack: doubly linked list
- * @line_number: line's num in morty script
- */
-
-void _pop(stack_t **stack, unsigned int line_number)
-{
-	stack_t *poped;
-
-	if (!*stack)
+	size = atoi(global.value) <= 0 ? 1 : 0;
+	number = abs(atoi(global.value));
+	while (number > 0)
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
-		fclose(global.fd);
-		free(global.line);
+		number /= 10;
+		size++;
+	}
+	if (size != strlen(global.value))
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free_stack();
 		exit(EXIT_FAILURE);
 	}
-	poped = *stack;
-	(*stack) = (*stack)->next;
-	global.head = (*stack);
-	if (*stack)
-		(*stack)->prev = NULL;
-	free(poped);
-	poped = NULL;
+	if (!strcmp(global.type, "stack"))
+		_stac(stack);
+	else
+		_queu(stack);
 }
 
 /**
- * _mul - multy 2 elements
- *
+ * _stack - stack Emp
  * @stack: doubly linked list
  * @line_number: monty script current line
  */
 
-void _mul(stack_t **stack, unsigned int line_number)
+void _stack(stack_t **stack, unsigned int line_number)
 {
-	stack_t *target;
+	(void) stack;
+	(void) line_number;
+	global.type = "stack";
+}
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-	{
-		fprintf(stderr, "L%u: can't mul, stack too short\n",
-				line_number);
-		fclose(global.fd);
-		free(global.line);
-		free_stack();
-		exit(EXIT_FAILURE);
-	}
+/**
+ * _queue - queue Emp
+ * @stack: doubly linked list
+ * @line_number: monty script current line
+ */
 
-	target = *stack;
-	(*stack)->next->n *= (*stack)->n;
-	*stack = (*stack)->next;
-	global.head = *stack;
-	free(target);
+void _queue(stack_t **stack, unsigned int line_number)
+{
+	(void) stack;
+	(void) line_number;
+	global.type = "queue";
 }
