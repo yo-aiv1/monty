@@ -26,7 +26,11 @@ void function_hundler(stack_t **stack, unsigned int line_number)
 
 	if (functions[i].opcode == NULL)
 	{
-		printf("L%u: unknown instruction %s\n", line_number, global.op_name);
+		fprintf(stderr, "L%u: unknown instruction %s\n", line_number,
+				global.op_name);
+		fclose(global.fd);
+		free(global.line);
+		free_stack();
 		exit(EXIT_FAILURE);
 	}
 }

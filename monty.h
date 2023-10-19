@@ -50,6 +50,8 @@ typedef struct global_s
 	char *op_name;
 	char *value;
 	stack_t *head;
+	FILE *fd;
+	char *line;
 } global_t;
 
 extern global_t global;

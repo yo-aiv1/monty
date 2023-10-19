@@ -14,7 +14,10 @@ void _push(stack_t **stack, unsigned int line_number)
 
 	if (global.value == NULL)
 	{
-		printf("L%u: usage: push integer\n", line_number);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		fclose(global.fd);
+		free(global.line);
+		free_stack();
 		exit(EXIT_FAILURE);
 	}
 	size = atoi(global.value) <= 0 ? 1 : 0;
@@ -27,6 +30,9 @@ void _push(stack_t **stack, unsigned int line_number)
 	if (size != strlen(global.value))
 	{
 		printf("L%u: usage: push integer\n", line_number);
+		fclose(global.fd);
+		free(global.line);
+		free_stack();
 		exit(EXIT_FAILURE);
 	}
 	new = malloc(sizeof(stack_t));
@@ -35,14 +41,11 @@ void _push(stack_t **stack, unsigned int line_number)
 		printf("Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-
 	new->n = atoi(global.value);
 	new->prev = NULL;
 	new->next = *stack;
 	if (*stack != NULL)
-	{
 		(*stack)->prev = new;
-	}
 	*stack = new;
 	global.head = new;
 }
@@ -78,6 +81,9 @@ void _pint(stack_t **stack, unsigned int line_number)
 	if (!*stack)
 	{
 		fprintf(stderr, " L%d: can't pint, stack empty\n", line_number);
+		fclose(global.fd);
+		free(global.line);
+		free_stack();
 		exit(EXIT_FAILURE);
 	}
 	printf("%d\n", (*stack)->n);
@@ -95,7 +101,10 @@ void _pop(stack_t **stack, unsigned int line_number)
 
 	if (!*stack)
 	{
-		fprintf(stderr, " L%d: can't pop an stack empty\n", line_number);
+		fprintf(stderr, " L%d: can't pop an empty stack\n", line_number);
+		fclose(global.fd);
+		free(global.line);
+		free_stack();
 		exit(EXIT_FAILURE);
 	}
 	poped = *stack;

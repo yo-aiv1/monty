@@ -20,23 +20,23 @@ int main(int argc, char **argv)
 
 	if (argc < 2)
 	{
-		printf("USAGE: monty file\n");
+		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
 	fp = fopen(argv[1], "r");
+	global.fd = fp;
 	if (fp == NULL)
 	{
-		printf("Error: Can't open file %s\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	atexit(free_stack);
 
 	while (getline(&line, &line_length, fp) != -1)
 	{
 		global.op_name = strtok(line, "\n\t\r\v\f ");
 		global.value = strtok(NULL, "\n\t\r\v\f ");
-
+		global.line = line;
 		if (global.op_name != NULL)
 		{
 			function_hundler(&head, line_number);
