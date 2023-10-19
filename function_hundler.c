@@ -12,6 +12,7 @@ void function_hundler(stack_t **stack, unsigned int line_number)
 	instruction_t functions[] = {
 		{"push", _push}, {"pall", _pall}, {"pint", _pint},
 		{"pop", _pop}, {"swap", _swap}, {"add", _add}, {"nop", _nop},
+		{"sub", _sub}, {"div", _div}, {"mul", _mul}, {"pchar", _pchar},
 		{NULL, NULL}
 	};
 
@@ -22,6 +23,8 @@ void function_hundler(stack_t **stack, unsigned int line_number)
 			functions[i].f(stack, line_number);
 			break;
 		}
+		else if (global.op_name[0] == '#')
+			break;
 		i++;
 	}
 
